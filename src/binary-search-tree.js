@@ -17,7 +17,7 @@ export const Tree=(function(){
 
     //buildTree(array) takes an array of data and turns it into a balanced binary tree full of Node objects appropriately placed (don’t forget to sort and remove duplicates!).
     //The buildTree function should return the level-0 root node.
-    const buildTree=(array)=>{
+    function buildTree(array){
         if(array.length===0){
             return null;
         }
@@ -62,7 +62,7 @@ export const Tree=(function(){
 
     //prettyPrint() console.logs the tree in a structured format.
     //the node parameter expects to receive the root of the tree.
-    const prettyPrint = (node, prefix = "", isLeft = true) => {
+    function prettyPrint(node, prefix = "", isLeft = true){
         if (node === null) {
           return;
         }
