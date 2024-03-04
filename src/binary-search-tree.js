@@ -129,6 +129,10 @@ export const Tree=(function(){
                 currentBranch=null;
                 return currentBranch;
             }
+            if(currentBranch.left==null&&currentBranch.right!=null){
+                currentBranch=currentBranch.right;
+                return currentBranch;
+            }
         }else{
             if(value<currentBranch.data){
                 currentBranch.left=deleteTraverse(currentBranch.left,value);
@@ -162,9 +166,13 @@ Tree.prettyPrint(root);
 Tree.insert(10);
 Tree.insert(2);
 Tree.prettyPrint(root);
-//test delete
-Tree.deleteItem(7);
+//test deleteItem(value) **case 1**
+Tree.deleteItem(2);
 Tree.deleteItem(10);
+Tree.prettyPrint(root);
+//test deleteItem(value) **case 2**
+Tree.deleteItem(1);
+Tree.deleteItem(9);
 Tree.prettyPrint(root);
 
 /*
