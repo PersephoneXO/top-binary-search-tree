@@ -32,15 +32,15 @@ export const Tree=(function(){
         let rightBranch=sortedArr.slice(rootIndex+1,sortedArr.length);
         //console.log(leftBranch);
         //console.log(rightBranch);
-        root.left=traverse(leftBranch);
-        root.right=traverse(rightBranch);
+        root.left=buildTraverse(leftBranch);
+        root.right=buildTraverse(rightBranch);
         return root;
 
 
     }
 
-
-    function traverse(branch){
+    //recursive function to navigate and build the tree as we move to each branch
+    function buildTraverse(branch){
         if(branch.length<=0){
             return null;
         }
@@ -48,8 +48,8 @@ export const Tree=(function(){
         let thisRoot=Node.newNode(branch[thisRootIndex]);
         let thisLeft=branch.slice(0,thisRootIndex);
         let thisRight=branch.slice(thisRootIndex+1,branch.length);
-        thisRoot.left=traverse(thisLeft);
-        thisRoot.right=traverse(thisRight);
+        thisRoot.left=buildTraverse(thisLeft);
+        thisRoot.right=buildTraverse(thisRight);
         return thisRoot;
     }
 
@@ -81,19 +81,53 @@ export const Tree=(function(){
         return root;
       }
 
+      //insert(value) inserts the given value into the tree
+      function insert(value){
+        if(value<root.data){
+            return insertTraverse(root.left,value);
+        }else if(value>root.data){
+            return insertTraverse(root.right,value);
+        }
+      }
+
+      //recursive function that compares the elements of each branch to the value
+      function insertTraverse(currentBranch,value){
+        //if branch is empty
+        if(currentBranch==null){
+            currentBranch=new Node.newNode(value);
+            return currentBranch;
+        }
+
+        //if branch is not empty,
+        //check if left branch is valid
+        if(value<currentBranch.data){
+            currentBranch.left=insertTraverse(currentBranch.left,value);
+        }else if(value>currentBranch.data){
+            currentBranch.right=insertTraverse(currentBranch.right,value);
+        }
+        return currentBranch;
+      }
+
 
     return{
         buildTree,
         prettyPrint,
-        getRoot
+        getRoot,
+        insert,
+
     }
 })();
 
 
 
 //test 1
+//test buildTree(array)
 Tree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 let root=Tree.getRoot();
+Tree.prettyPrint(root);
+//test insert(value)
+Tree.insert(10);
+Tree.insert(2);
 Tree.prettyPrint(root);
 
 
