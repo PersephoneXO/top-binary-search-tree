@@ -133,6 +133,10 @@ export const Tree=(function(){
                 currentBranch=currentBranch.right;
                 return currentBranch;
             }
+            if(currentBranch.right==null&&currentBranch.left!=null){
+                currentBranch=currentBranch.left;
+                return currentBranch;
+            }
         }else{
             if(value<currentBranch.data){
                 currentBranch.left=deleteTraverse(currentBranch.left,value);
