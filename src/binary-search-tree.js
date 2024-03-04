@@ -108,12 +108,45 @@ export const Tree=(function(){
         return currentBranch;
       }
 
+      //deleteItem(value) deletes the given value from the tree
+      function deleteItem(value){
+        if(root.data==value){
+
+        }else{
+            if(value<root.data){
+                return deleteTraverse(root.left,value);
+            }else if(value>root.data){
+                return deleteTraverse(root.right,value);
+            }
+        }
+      }
+
+      //recursive function that looks for the item to delete
+      function deleteTraverse(currentBranch,value){
+        //console.log(currentBranch);
+        if(currentBranch.data==value){
+            if(currentBranch.left==null&&currentBranch.right==null){
+                currentBranch=null;
+                return currentBranch;
+            }
+        }else{
+            if(value<currentBranch.data){
+                currentBranch.left=deleteTraverse(currentBranch.left,value);
+            }else if(value>currentBranch.data){
+                currentBranch.right=deleteTraverse(currentBranch.right,value);
+            }
+        }
+        return currentBranch;
+      }
+
+
 
     return{
         buildTree,
         prettyPrint,
         getRoot,
         insert,
+        deleteItem,
 
     }
 })();
@@ -129,7 +162,10 @@ Tree.prettyPrint(root);
 Tree.insert(10);
 Tree.insert(2);
 Tree.prettyPrint(root);
-
+//test delete
+Tree.deleteItem(7);
+Tree.deleteItem(10);
+Tree.prettyPrint(root);
 
 /*
 //test 2
