@@ -111,7 +111,7 @@ export const Tree=(function(){
       //deleteItem(value) deletes the given value from the tree
       function deleteItem(value){
         if(root.data==value){
-
+            return deleteTraverse(root,value);
         }else{
             if(value<root.data){
                 return deleteTraverse(root.left,value);
@@ -125,16 +125,43 @@ export const Tree=(function(){
       function deleteTraverse(currentBranch,value){
         //console.log(currentBranch);
         if(currentBranch.data==value){
+            //node has no children **case 1**
             if(currentBranch.left==null&&currentBranch.right==null){
                 currentBranch=null;
                 return currentBranch;
             }
+            //node has 1 child **case 2 v1**
             if(currentBranch.left==null&&currentBranch.right!=null){
                 currentBranch=currentBranch.right;
                 return currentBranch;
             }
+            //node has 1 child **case 2 v2**
             if(currentBranch.right==null&&currentBranch.left!=null){
                 currentBranch=currentBranch.left;
+                return currentBranch;
+            }
+            //has has both children **case 3**
+            if(currentBranch.right!=null&&currentBranch.left!=null){
+                let succParent=currentBranch;
+                //find the successor
+                let succ=currentBranch.right;
+                while(succ.left!=null){
+                    succParent=succ;
+                    succ=succ.left;
+                }
+                //the successor is always the left child of its parent so we can safely make the successor's right right child as left of its parent
+                //if no successor, then assign succ.right to succParent.right
+                //credit: https://www.geeksforgeeks.org/deletion-in-binary-search-tree/
+                if(succParent!=currentBranch){
+                    succParent.left=succ.right;
+                }else{
+                    succParent.right=succ.right;
+                }
+                //copy the successor's data to the currentBranch
+                currentBranch.data=succ.data;
+
+                //delete successor
+                succ=null;
                 return currentBranch;
             }
         }else{
@@ -178,6 +205,12 @@ Tree.prettyPrint(root);
 Tree.deleteItem(1);
 Tree.deleteItem(9);
 Tree.prettyPrint(root);
+//test deleteItem(value) **case 3**
+Tree.deleteItem(4);
+Tree.prettyPrint(root);
+Tree.deleteItem(8);
+Tree.prettyPrint(root);
+
 
 /*
 //test 2
