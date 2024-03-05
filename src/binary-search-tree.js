@@ -91,21 +91,21 @@ export const Tree=(function(){
       }
 
       //recursive function that compares the elements of each branch to the value
-      function insertTraverse(currentBranch,value){
+      function insertTraverse(currentNode,value){
         //if branch is empty
-        if(currentBranch==null){
-            currentBranch=new Node.newNode(value);
-            return currentBranch;
+        if(currentNode==null){
+            currentNode=new Node.newNode(value);
+            return currentNode;
         }
 
         //if branch is not empty,
         //check if left branch is valid
-        if(value<currentBranch.data){
-            currentBranch.left=insertTraverse(currentBranch.left,value);
-        }else if(value>currentBranch.data){
-            currentBranch.right=insertTraverse(currentBranch.right,value);
+        if(value<currentNode.data){
+            currentNode.left=insertTraverse(currentNode.left,value);
+        }else if(value>currentNode.data){
+            currentNode.right=insertTraverse(currentNode.right,value);
         }
-        return currentBranch;
+        return currentNode;
       }
 
       //deleteItem(value) deletes the given value from the tree
@@ -122,29 +122,29 @@ export const Tree=(function(){
       }
 
       //recursive function that looks for the item to delete
-      function deleteTraverse(currentBranch,value){
-        //console.log(currentBranch);
-        if(currentBranch.data==value){
+      function deleteTraverse(currentNode,value){
+        //console.log(currentNode);
+        if(currentNode.data==value){
             //node has no children **case 1**
-            if(currentBranch.left==null&&currentBranch.right==null){
-                currentBranch=null;
-                return currentBranch;
+            if(currentNode.left==null&&currentNode.right==null){
+                currentNode=null;
+                return currentNode;
             }
             //node has 1 child **case 2 v1**
-            if(currentBranch.left==null&&currentBranch.right!=null){
-                currentBranch=currentBranch.right;
-                return currentBranch;
+            if(currentNode.left==null&&currentNode.right!=null){
+                currentNode=currentNode.right;
+                return currentNode;
             }
             //node has 1 child **case 2 v2**
-            if(currentBranch.right==null&&currentBranch.left!=null){
-                currentBranch=currentBranch.left;
-                return currentBranch;
+            if(currentNode.right==null&&currentNode.left!=null){
+                currentNode=currentNode.left;
+                return currentNode;
             }
             //has has both children **case 3**
-            if(currentBranch.right!=null&&currentBranch.left!=null){
-                let succParent=currentBranch;
+            if(currentNode.right!=null&&currentNode.left!=null){
+                let succParent=currentNode;
                 //find the successor
-                let succ=currentBranch.right;
+                let succ=currentNode.right;
                 while(succ.left!=null){
                     succParent=succ;
                     succ=succ.left;
@@ -152,26 +152,56 @@ export const Tree=(function(){
                 //the successor is always the left child of its parent so we can safely make the successor's right right child as left of its parent
                 //if no successor, then assign succ.right to succParent.right
                 //credit: https://www.geeksforgeeks.org/deletion-in-binary-search-tree/
-                if(succParent!=currentBranch){
+                if(succParent!=currentNode){
                     succParent.left=succ.right;
                 }else{
                     succParent.right=succ.right;
                 }
-                //copy the successor's data to the currentBranch
-                currentBranch.data=succ.data;
+                //copy the successor's data to the currentNode
+                currentNode.data=succ.data;
 
                 //delete successor
                 succ=null;
-                return currentBranch;
+                return currentNode;
             }
         }else{
-            if(value<currentBranch.data){
-                currentBranch.left=deleteTraverse(currentBranch.left,value);
-            }else if(value>currentBranch.data){
-                currentBranch.right=deleteTraverse(currentBranch.right,value);
+            if(value<currentNode.data){
+                currentNode.left=deleteTraverse(currentNode.left,value);
+            }else if(value>currentNode.data){
+                currentNode.right=deleteTraverse(currentNode.right,value);
             }
         }
-        return currentBranch;
+        return currentNode;
+      }
+
+      //find(value) returns the node with the given value
+      function find(value){
+        if(root.data==value){
+            return root;
+        }else{
+            if(value<root.data){
+                return findTraverse(root.left,value);
+            }else if(value>root.data){
+                return findTraverse(root.right,value);
+            }
+        }
+      }
+
+      //recursive function that searches for the node with the given value in the tree
+      function findTraverse(currentNode,value){
+        //if the node in question does not exist
+        if(currentNode==null){
+            return null;
+        }
+        if(currentNode.data==value){
+            return currentNode;
+        }else{
+            if(value<currentNode.data){
+                return findTraverse(currentNode.left,value);
+            }else if(value>currentNode.data){
+                return findTraverse(currentNode.right,value);
+            }
+        }
       }
 
 
@@ -182,6 +212,7 @@ export const Tree=(function(){
         getRoot,
         insert,
         deleteItem,
+        find,
 
     }
 })();
@@ -206,10 +237,22 @@ Tree.deleteItem(1);
 Tree.deleteItem(9);
 Tree.prettyPrint(root);
 //test deleteItem(value) **case 3**
+/*
 Tree.deleteItem(4);
 Tree.prettyPrint(root);
 Tree.deleteItem(8);
 Tree.prettyPrint(root);
+*/
+//test find(value)
+/*
+console.log(Tree.find(8));
+console.log(Tree.find(5));
+console.log(Tree.find(324));
+console.log(Tree.find(1));
+*/
+
+
+
 
 
 /*
