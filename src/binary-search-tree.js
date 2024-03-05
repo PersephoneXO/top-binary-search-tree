@@ -207,24 +207,26 @@ export const Tree=(function(){
       //levelOrder(callback) accepts an optional callback function as a parameter,
       //and should traverse the tree in breadth-first level order and provide each node as an argument to the callback
       function levelOrder(callback=null){
-        let queue=[];
-        if(callback==null){
-            let finalArr=[];
-            queue.push(root);
-            while(queue.length!=0){
-                let currentNode=queue.shift();
-                finalArr.push(currentNode.data);
-                if(currentNode.left!=null){
-                    queue.push(currentNode.left);
-                }
-                if(currentNode.right!=null){
-                    queue.push(currentNode.right);
-                }
+        let queue=[root];
+        let finalArr=[];
+        while(queue.length!=0){
+            let currentNode=queue.shift();
+            finalArr.push(currentNode.data);
+            if(currentNode.left!=null){
+                queue.push(currentNode.left);
             }
+            if(currentNode.right!=null){
+                queue.push(currentNode.right);
+            }
+        }
+        if(callback==null){
             return finalArr;
         }else{
-
+            for(const ele of finalArr){
+                callback(ele);
+            }
         }
+
       }
 
 
@@ -273,7 +275,7 @@ console.log(Tree.find(5));
 console.log(Tree.find(324));
 console.log(Tree.find(1));
 */
-//test levelOrder(callback) **case 1**
+//test levelOrder(callback)
 console.log(Tree.levelOrder());
 
 
