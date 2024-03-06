@@ -253,6 +253,29 @@ export const Tree=(function(){
         }
       }
 
+      //preOrder(callback) accepts an optional callback as a parameter.
+      //the order is (root => left branch (left to right) => right branch (left to right))
+      function preOrder(callback){
+        let queue=[root];
+        let finalArr=[];
+        while(queue.length!=0){
+            let currentNode=queue.pop();
+            finalArr.push(currentNode.data);
+            if(currentNode.right!=null){
+                queue.push(currentNode.right);
+            }
+            if(currentNode.left!=null){
+                queue.push(currentNode.left);
+            }
+        }
+        if(callback==null){
+            return finalArr;
+        }else{
+            for(const ele of finalArr){
+                callback(ele);
+            }
+        }
+      }
 
 
 
@@ -268,6 +291,7 @@ export const Tree=(function(){
         find,
         levelOrder,
         inOrder,
+        preOrder,
 
     }
 })();
@@ -309,7 +333,8 @@ console.log(Tree.find(1));
 console.log(Tree.levelOrder());
 //test inOrder(callback)
 console.log(Tree.inOrder());
-
+//test preOrder(callback)
+console.log(Tree.preOrder());
 
 
 /*
