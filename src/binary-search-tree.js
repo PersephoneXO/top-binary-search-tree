@@ -229,6 +229,35 @@ export const Tree=(function(){
 
       }
 
+      //inOrder(callback) accepts an optional callback as a parameter.
+      //the order is (left => middle => right)
+      function inOrder(callback=null){
+        let queue=[];
+        let finalArr=[];
+        let currentNode=root;
+        while(queue.length!=0||currentNode!=null){
+            while(currentNode!=null){
+                queue.push(currentNode);
+                currentNode=currentNode.left;
+            }
+            let thisNode=queue.pop();
+            finalArr.push(thisNode.data);
+            currentNode=thisNode.right;
+        }
+        if(callback==null){
+            return finalArr;
+        }else{
+            for(const ele of finalArr){
+                callback(ele);
+            }
+        }
+      }
+
+
+
+
+
+
 
     return{
         buildTree,
@@ -238,6 +267,7 @@ export const Tree=(function(){
         deleteItem,
         find,
         levelOrder,
+        inOrder,
 
     }
 })();
@@ -277,7 +307,8 @@ console.log(Tree.find(1));
 */
 //test levelOrder(callback)
 console.log(Tree.levelOrder());
-
+//test inOrder(callback)
+console.log(Tree.inOrder());
 
 
 
