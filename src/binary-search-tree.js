@@ -229,6 +229,7 @@ export const Tree=(function(){
 
       }
 
+
       //inOrder(callback) accepts an optional callback as a parameter.
       //the order is (left => middle => right)
       function inOrder(callback=null){
@@ -252,6 +253,7 @@ export const Tree=(function(){
             }
         }
       }
+
 
       //preOrder(callback) accepts an optional callback as a parameter.
       //the order is (root => left branch (left to right) => right branch (left to right))
@@ -280,7 +282,8 @@ export const Tree=(function(){
 
       //postOrder(callback) accepts an optional callback as a parameter.
       //the order is (left branch (left to right (level order from bottom)) => right branch (left to right (level order from bottom)) => root)
-      function postOrder(callback=null){
+      //first attempt
+      /*function postOrder(callback=null){
         let queue=[root];
         let finalArr=[];
         while(queue.length!=0){
@@ -303,6 +306,57 @@ export const Tree=(function(){
                 callback(ele);
             }
         }
+      }*/
+      //second attempt
+      function postOrder(callback=null){
+        let finalArr=[];
+
+        function postOrderTraverse(currentNode){
+            if(currentNode==null){
+                return;
+            }else{
+                postOrderTraverse(currentNode.left);
+                postOrderTraverse(currentNode.right);
+                finalArr.push(currentNode.data);
+            }
+        }
+
+        postOrderTraverse(root);
+        if(callback==null){
+            return finalArr;
+        }else{
+            for(const ele of finalArr){
+                callback(ele);
+            }
+        }
+      }
+
+
+
+
+      //height(node) returns the given node's height.
+      //height is defined as the number of edges in the longest path from the given node to a leaf node.
+      function height(node){
+        if(node===null){
+            return 0;
+        }
+        let queue=[root];
+        let height=-1;
+        while(queue.length!=0){
+            let size=queue.length;
+            height++;
+            while(size>0){
+                let currentNode=queue.pop();
+                if(currentNode.left!=null){
+                    queue.push(currentNode.left);
+                }
+                if(currentNode.right!=null){
+                    queue.push(currentNode.right);
+                }
+                size--;
+            }
+        }
+        return height;
       }
 
 
@@ -319,6 +373,7 @@ export const Tree=(function(){
         inOrder,
         preOrder,
         postOrder,
+        height,
 
     }
 })();
@@ -364,6 +419,13 @@ console.log(Tree.inOrder());
 console.log(Tree.preOrder());
 //test postOrder(callback)
 console.log(Tree.postOrder());
+//test height(node)
+console.log(Tree.height(root));
+
+
+
+
+
 
 /*
 //test 2
