@@ -395,19 +395,34 @@ export const Tree=(function(){
       //isBalanced() checks if the tree is balanced.
       //a balanced tree if one where the difference between heights of the left subtree and the right subtree of every node is not more than 1.
       function isBalanced(){
-        let flag=false;
         if(root==null){
-            flag=true;
+            return true;
         }
-        else{
-            let leftHeight=height(root.left);
-            let rightHeight=height(root.right);
-            let heightDifference=leftHeight-rightHeight
-            if(heightDifference==0||heightDifference==1){
-                flag=true;
+
+        function checkBalance(node){
+            if(node==null){
+                return 0;
             }
+            let leftHeight=checkBalance(node.left);
+            //left branch is unbalanced
+            if(leftHeight==-1){
+                return -1;
+            }
+            let rightHeight=checkBalance(node.right);
+            //right branch is unbalanced
+            if(rightHeight==-1){
+                return -1;
+            }
+
+            let heightDifference=Math.abs(leftHeight-rightHeight);
+            //subtree is unbalanced
+            if(heightDifference>1){
+                return -1;
+            }
+            //return the height of the current subtree
+            return Math.max(leftHeight,rightHeight)+1;
         }
-        return flag;
+        return checkBalance(root)!=-1;
       }
 
 
