@@ -341,12 +341,12 @@ export const Tree=(function(){
             return 0;
         }
         let queue=[node];
-        let height=-1;
+        let height=0;
         while(queue.length!=0){
             let size=queue.length;
             height++;
             while(size>0){
-                let currentNode=queue.pop();
+                let currentNode=queue.shift();
                 if(currentNode.left!=null){
                     queue.push(currentNode.left);
                 }
@@ -356,7 +356,7 @@ export const Tree=(function(){
                 size--;
             }
         }
-        return height;
+        return height-1;
       }
 
 
@@ -411,6 +411,12 @@ export const Tree=(function(){
       }
 
 
+      //rebalance() rebalances an unbalanced tree.
+      function rebalance(){
+
+      }
+
+
 
     return{
         buildTree,
@@ -426,7 +432,7 @@ export const Tree=(function(){
         height,
         depth,
         isBalanced,
-
+        rebalance
     }
 })();
 
@@ -450,12 +456,12 @@ Tree.deleteItem(1);
 Tree.deleteItem(9);
 Tree.prettyPrint(root);
 //test deleteItem(value) **case 3**
-/*
+
 Tree.deleteItem(4);
 Tree.prettyPrint(root);
 Tree.deleteItem(8);
 Tree.prettyPrint(root);
-*/
+
 //test find(value)
 //console.log(Tree.find(8));
 //console.log(Tree.find(5));
@@ -479,6 +485,7 @@ console.log(Tree.depth(root));
 console.log(Tree.depth(node324));
 //test isBalanced()
 console.log(Tree.isBalanced());
+//test rebalance()
 
 
 
