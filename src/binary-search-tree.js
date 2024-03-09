@@ -392,6 +392,24 @@ export const Tree=(function(){
       }
 
 
+      //isBalanced() checks if the tree is balanced.
+      //a balanced tree if one where the difference between heights of the left subtree and the right subtree of every node is not more than 1.
+      function isBalanced(){
+        let flag=false;
+        if(root==null){
+            flag=true;
+        }
+        else{
+            let leftHeight=height(root.left);
+            let rightHeight=height(root.right);
+            let heightDifference=leftHeight-rightHeight
+            if(heightDifference==0||heightDifference==1){
+                flag=true;
+            }
+        }
+        return flag;
+      }
+
 
 
     return{
@@ -407,6 +425,7 @@ export const Tree=(function(){
         postOrder,
         height,
         depth,
+        isBalanced,
 
     }
 })();
@@ -438,12 +457,11 @@ Tree.deleteItem(8);
 Tree.prettyPrint(root);
 */
 //test find(value)
-
-console.log(Tree.find(8));
-console.log(Tree.find(5));
-console.log(Tree.find(324));
+//console.log(Tree.find(8));
+//console.log(Tree.find(5));
+//console.log(Tree.find(324));
 let node324=Tree.find(324);
-console.log(Tree.find(1));
+//console.log(Tree.find(1));
 
 //test levelOrder(callback)
 console.log(Tree.levelOrder());
@@ -459,7 +477,8 @@ console.log(Tree.height(node324));
 //test depth(node)
 console.log(Tree.depth(root));
 console.log(Tree.depth(node324));
-
+//test isBalanced()
+console.log(Tree.isBalanced());
 
 
 
