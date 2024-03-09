@@ -340,7 +340,7 @@ export const Tree=(function(){
         if(node===null){
             return 0;
         }
-        let queue=[root];
+        let queue=[node];
         let height=-1;
         while(queue.length!=0){
             let size=queue.length;
@@ -360,6 +360,38 @@ export const Tree=(function(){
       }
 
 
+      //depth(node) returns the given node's depth.
+      //depth is defined as the number of edges in the path from a given node to the tree’s root node.
+      function depth(node){
+        if(node==root){
+            return 0;
+        }
+        else{
+            let queue=[root];
+            let depth=0;
+            while(queue.length!=0){
+                let size=queue.length;
+                depth++;
+                while(size>0){
+                    let currentNode=queue.pop();
+                    if(currentNode==node){
+                        return depth;
+                    }else{
+                        if(currentNode.left!=null){
+                            queue.push(currentNode.left);
+                        }
+                        if(currentNode.right!=null){
+                            queue.push(currentNode.right);
+                        }
+                        size--;
+                    }
+                }
+            }
+            return depth;
+        }
+      }
+
+
 
 
     return{
@@ -374,6 +406,7 @@ export const Tree=(function(){
         preOrder,
         postOrder,
         height,
+        depth,
 
     }
 })();
@@ -405,12 +438,13 @@ Tree.deleteItem(8);
 Tree.prettyPrint(root);
 */
 //test find(value)
-/*
+
 console.log(Tree.find(8));
 console.log(Tree.find(5));
 console.log(Tree.find(324));
+let node324=Tree.find(324);
 console.log(Tree.find(1));
-*/
+
 //test levelOrder(callback)
 console.log(Tree.levelOrder());
 //test inOrder(callback)
@@ -421,8 +455,10 @@ console.log(Tree.preOrder());
 console.log(Tree.postOrder());
 //test height(node)
 console.log(Tree.height(root));
-
-
+console.log(Tree.height(node324));
+//test depth(node)
+console.log(Tree.depth(root));
+console.log(Tree.depth(node324));
 
 
 
