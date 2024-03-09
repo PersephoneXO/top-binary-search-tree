@@ -427,7 +427,7 @@ export const Tree=(function(){
 
 
       //rebalance() rebalances an unbalanced tree.
-      function rebalance(){
+      function rebalance(node){
 
       }
 
@@ -501,6 +501,9 @@ console.log(Tree.depth(node324));
 //test isBalanced()
 console.log(Tree.isBalanced());
 //test rebalance()
+
+root=Tree.rebalance(root);
+console.log(root);
 
 
 
